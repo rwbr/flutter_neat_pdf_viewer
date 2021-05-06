@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neat_pdf_viewer/flutter_neat_pdf_viewer.dart';
-import 'package:numberpicker/numberpicker.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 
 /// enum to describe indicator position
 enum IndicatorPosition { topLeft, topRight, bottomLeft, bottomRight }
@@ -197,22 +197,23 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   _pickPage() {
-    showDialog<int>(
-        context: context,
-        builder: (BuildContext context) {
-          return NumberPickerDialog.integer(
-            title: Text(widget.tooltip.pick),
-            minValue: 1,
-            cancelWidget: Container(),
-            maxValue: widget.document.count,
-            initialIntegerValue: _pageNumber,
-          );
-        }).then((int value) {
-      if (value != null) {
-        _pageNumber = value;
-        _jumpToPage();
-      }
-    });
+    Picker(
+        adapter: NumberPickerAdapter(data: [
+          NumberPickerColumn(
+            begin: 1,
+            end: widget.document.count,
+          ),
+        ]),
+        hideHeader: true,
+        title: Text(widget.tooltip.pick),
+        selectedTextStyle: TextStyle(color: Colors.blue),
+        onConfirm: (Picker picker, List value) {
+          int _selectedValue = picker.getSelectedValues().first;
+          if (_selectedValue != null) {
+            _pageNumber = _selectedValue;
+            _jumpToPage();
+          }
+        }).showDialog(context);
   }
 
   @override
