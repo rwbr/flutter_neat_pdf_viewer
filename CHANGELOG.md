@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.1.0+9] - 2021-05-07
 
-* TODO: Describe initial release.
+* First public release
+* Updated dependencies

@@ -1,7 +1,6 @@
 name: flutter_neat_pdf_viewer
-description: A flutter plugin for handling PDF files. Works on both Android & iOS
-version: 0.0.1
-author: Ralf Weinbrecher <ralf.weinbrecher@gmail.com>
+description: A flutter plugin for handling PDF files. Works on both Android & iOS. Inspired by 
+version: 0.1.0+9
 homepage: https://github.com/rwbr/flutter_neat_pdf_viewer
 
 environment:
