@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       document = await PDFDocument.fromAsset('assets/sample2.pdf');
     } else if (value == 2) {
       document = await PDFDocument.fromURL(
-        "https://conorlastowka.com/book/CitationNeededBook-Sample.pdf",
+        'https://www.jena.de/fm/41/test.pdf',
         /* cacheManager: CacheManager(
           Config(
             "customCacheKey",
