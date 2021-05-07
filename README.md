@@ -2,14 +2,14 @@
 
 A flutter plugin for handling PDF files. Works on both Android & iOS. Originally forked from (https://github.com/CrossPT/flutter_plugin_pdf_viewer).
 
-[![Pub Package](https://img.shields.io/pub/v/advance_pdf_viewer.svg?style=flat-square)](https://pub.dartlang.org/packages/advance_pdf_viewer)
+[![Pub Package](https://img.shields.io/pub/v/flutter_neat_pdf_viewer.svg?style=flat-square)](https://pub.dartlang.org/packages/flutter_neat_pdf_viewer)
 
 
 ## Installation
 
 Add  *flutter_neat_pdf_viewer*  as a dependency in [your pubspec.yaml file](https://flutter.io/platform-plugins/).
 ```
-advance_pdf_viewer: any
+flutter_neat_pdf_viewer: any
 ```
 
 ---
