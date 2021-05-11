@@ -10,7 +10,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isLoading = true;
-  PDFDocument document;
+  late PDFDocument document;
 
   @override
   void initState() {
@@ -59,13 +59,13 @@ class _MyAppState extends State<MyApp> {
               ListTile(
                 title: Text('Load from Assets (Sample 2)'),
                 onTap: () {
-                  changePDF(3);
+                  changePDF(2);
                 },
               ),
               ListTile(
                 title: Text('Load from URL'),
                 onTap: () {
-                  changePDF(2);
+                  changePDF(3);
                 },
               ),
             ],
