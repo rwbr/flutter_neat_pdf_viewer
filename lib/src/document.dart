@@ -113,7 +113,8 @@ class PDFDocument {
     final double panLimit,
   }) async {
     int countvar = 1;
-    await Future.forEach<int>(List(count), (i) async {
+    await Future.forEach<int>(List.filled(count, null, growable: false),
+        (i) async {
       final data = await _channel.invokeMethod(
           'getPage', {'filePath': _filePath, 'pageNumber': countvar});
       _pages.add(PDFPage(
@@ -132,8 +133,8 @@ class PDFDocument {
 
   // Stream all pages
   Stream<PDFPage> getAll({final Function(double) onZoomChanged}) {
-    return Future.forEach<PDFPage>(List(count), (i) async {
-      print(i);
+    return Future.forEach<PDFPage>(List.filled(count, null, growable: false),
+        (i) async {
       final data = await _channel
           .invokeMethod('getPage', {'filePath': _filePath, 'pageNumber': i});
       return new PDFPage(
