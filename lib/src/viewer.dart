@@ -96,7 +96,7 @@ class _PDFViewerState extends State<PDFViewer> {
   @override
   void initState() {
     super.initState();
-    _pages = List.filled(widget.document.count!, null, growable: false);
+    _pages = List.filled(widget.document.count!, null, growable: true);
     _pageController = widget.controller ?? PageController();
     _pageNumber = _pageController!.initialPage + 1;
     if (!widget.lazyLoad)
@@ -112,15 +112,13 @@ class _PDFViewerState extends State<PDFViewer> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _pageNumber = _pageController!.initialPage + 1;
-    _isLoading = true;
-    _pages = List.filled(widget.document.count!, null, growable: false);
-    // _loadAllPages();
+    _refreshDocument();
     _loadPage();
   }
 
   @override
   void didUpdateWidget(PDFViewer oldWidget) {
+    _refreshDocument();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -136,8 +134,14 @@ class _PDFViewerState extends State<PDFViewer> {
     }
   }
 
+  void _refreshDocument() {
+    _pageNumber = _pageController!.initialPage + 1;
+    _isLoading = true;
+    _pages = List.filled(widget.document.count!, null, growable: true);
+    _loadPage();
+  }
+
   _loadPage() async {
-    if (_pages![_pageNumber! - 1] != null) return;
     setState(() {
       _isLoading = true;
     });
@@ -149,7 +153,9 @@ class _PDFViewerState extends State<PDFViewer> {
       maxScale: widget.maxScale,
       panLimit: widget.panLimit,
     );
-    _pages![_pageNumber! - 1] = data;
+    _pages!.length < _pageNumber!
+        ? _pages!.add(data)
+        : _pages![_pageNumber! - 1] = data;
     if (mounted) {
       setState(() {
         _isLoading = false;
@@ -176,7 +182,8 @@ class _PDFViewerState extends State<PDFViewer> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
                 color: widget.indicatorBackground),
-            child: Text("$_pageNumber/${widget.document.count}",
+            child: Text(
+                "$_pageNumber/${widget.document.count}", // Page number indicator
                 style: TextStyle(
                     color: widget.indicatorText,
                     fontSize: 16.0,
