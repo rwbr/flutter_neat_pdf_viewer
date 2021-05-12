@@ -10,7 +10,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isLoading = true;
-  PDFDocument document;
+  late PDFDocument document;
 
   @override
   void initState() {
@@ -26,21 +26,18 @@ class _MyAppState extends State<MyApp> {
 
   changePDF(value) async {
     setState(() => _isLoading = true);
-    if (value == 1) {
-      document = await PDFDocument.fromAsset('assets/sample2.pdf');
-    } else if (value == 2) {
-      document = await PDFDocument.fromURL(
-        'https://www.jena.de/fm/41/test.pdf',
-        /* cacheManager: CacheManager(
-          Config(
-            "customCacheKey",
-            stalePeriod: const Duration(days: 2),
-            maxNrOfCacheObjects: 10,
-          ),
-        ), */
-      );
-    } else {
-      document = await PDFDocument.fromAsset('assets/sample.pdf');
+    switch (value) {
+      case 1:
+        document = await PDFDocument.fromAsset('assets/sample.pdf');
+
+        break;
+      case 2:
+        document = await PDFDocument.fromAsset('assets/sample2.pdf');
+        break;
+      case 3:
+      default:
+        document =
+            await PDFDocument.fromURL('https://www.jena.de/fm/41/test.pdf');
     }
     setState(() => _isLoading = false);
   }
@@ -54,19 +51,19 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               SizedBox(height: 36),
               ListTile(
-                title: Text('Load from Assets'),
+                title: Text('Load from Assets (Sample 1)'),
                 onTap: () {
                   changePDF(1);
                 },
               ),
               ListTile(
-                title: Text('Load from URL'),
+                title: Text('Load from Assets (Sample 2)'),
                 onTap: () {
                   changePDF(2);
                 },
               ),
               ListTile(
-                title: Text('Restore default'),
+                title: Text('Load from URL'),
                 onTap: () {
                   changePDF(3);
                 },

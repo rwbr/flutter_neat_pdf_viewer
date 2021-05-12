@@ -10,8 +10,8 @@ class PDFDocument {
   static const MethodChannel _channel =
       const MethodChannel('flutter_plugin_pdf_viewer');
 
-  String _filePath;
-  int count;
+  String? _filePath;
+  int? count;
   List<PDFPage> _pages = [];
   bool _preloaded = false;
 
@@ -38,7 +38,7 @@ class PDFDocument {
   /// [CacheManager cacheManager] to provide configuration for
   /// cache management
   static Future<PDFDocument> fromURL(String url,
-      {Map<String, String> headers, CacheManager cacheManager}) async {
+      {Map<String, String>? headers, CacheManager? cacheManager}) async {
     // Download into cache
     File f = await DefaultCacheManager().getSingleFile(url);
     PDFDocument document = PDFDocument();
@@ -84,11 +84,11 @@ class PDFDocument {
   /// [page] defaults to `1` and must be equal or above it
   Future<PDFPage> get({
     int page = 1,
-    final Function(double) onZoomChanged,
-    final int zoomSteps,
-    final double minScale,
-    final double maxScale,
-    final double panLimit,
+    final Function(double)? onZoomChanged,
+    final int? zoomSteps,
+    final double? minScale,
+    final double? maxScale,
+    final double? panLimit,
   }) async {
     assert(page > 0);
     if (_preloaded && _pages.isNotEmpty) return _pages[page - 1];
@@ -106,14 +106,15 @@ class PDFDocument {
   }
 
   Future<void> preloadPages({
-    final Function(double) onZoomChanged,
-    final int zoomSteps,
-    final double minScale,
-    final double maxScale,
-    final double panLimit,
+    final Function(double)? onZoomChanged,
+    final int? zoomSteps,
+    final double? minScale,
+    final double? maxScale,
+    final double? panLimit,
   }) async {
     int countvar = 1;
-    await Future.forEach<int>(List.filled(count, null), (i) async {
+    await Future.forEach<int?>(List.filled(count!, null, growable: false),
+        (i) async {
       final data = await _channel.invokeMethod(
           'getPage', {'filePath': _filePath, 'pageNumber': countvar});
       _pages.add(PDFPage(
@@ -131,9 +132,9 @@ class PDFDocument {
   }
 
   // Stream all pages
-  Stream<PDFPage> getAll({final Function(double) onZoomChanged}) {
-    return Future.forEach<PDFPage>(List.filled(count, null), (i) async {
-      print(i);
+  Stream<PDFPage?> getAll({final Function(double)? onZoomChanged}) {
+    return Future.forEach<PDFPage?>(List.filled(count!, null, growable: false),
+        (i) async {
       final data = await _channel
           .invokeMethod('getPage', {'filePath': _filePath, 'pageNumber': i});
       return new PDFPage(
@@ -141,6 +142,6 @@ class PDFDocument {
         1,
         onZoomChanged: onZoomChanged,
       );
-    }).asStream();
+    }).asStream() as Stream<PDFPage?>;
   }
 }
